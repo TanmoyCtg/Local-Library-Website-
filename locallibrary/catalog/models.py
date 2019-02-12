@@ -37,6 +37,9 @@ class Book(models.Model):
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book.')
     language = models.ForeignKey("Language", null=True, on_delete=models.SET_NULL)
 
+    # genre is a manytomany field we need to use use function to show genre book table
+    # use loop for that particular problem
+    #  """Create a string for the Genre. This is required to display genre in Admin."""
     def display_genre(self):
         return ', '.join([genre.name for genre in self.genre.all()[:3]])
     
@@ -71,11 +74,7 @@ class BookInstance(models.Model):
         ('a', 'Available'),
         ('r', 'Reserved'),
     )
-    status = models.CharField(
-        max_length=1,
-        choices=LOAN_STATUS,
-        blank=True,
-        default = 'm',
+    status = models.CharField(max_length=1,choices=LOAN_STATUS,blank=True,default = 'm',
         help_text='Book availability',
     )
     class Meta:
